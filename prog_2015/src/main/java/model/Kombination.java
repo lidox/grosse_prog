@@ -65,10 +65,23 @@ public class Kombination {
 		return 0;
 	}
 	
-	public double getLZ(){
+	public double getLZ_old2(){
 		double l = realeEnd - verstrichenEnd;
 		if(l<0){
 			return l*(-1);
+		}
+		return 0;
+	}
+	
+	public double getLZ(){
+		double max = realeEnd - verstrichenEnd;
+		for (int i = 1; i < feld[2].length; i++) {
+			if(feld[2][i]<max){
+				max=feld[2][i];
+			}
+		}
+		if(max<0){
+			return max*(-1);
 		}
 		return 0;
 	}
