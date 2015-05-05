@@ -39,4 +39,15 @@ public class StrategieTest {
 		System.out.println("durchschnittliche Leerlaufzeit = " +s.getLZ());
 		System.out.println("gesamtbewertung der strategie = " +s.getBS());
 	}
+	
+	@Test
+	public void testPowerOf1(){
+		List<Integer> l = new ArrayList<Integer>();
+		l.add(15);
+		l.add(30);
+		l.add(20);
+		Strategie s = new Strategie("% Nr. 2: keine leerlaufzeiten", l);
+		double d = s.getPowerOf(2,3);
+		System.out.println(d);
+	}
 }

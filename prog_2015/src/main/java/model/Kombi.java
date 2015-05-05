@@ -8,7 +8,7 @@ public class Kombi {
 	private int[] dauer;
 	
 	public Kombi(int patienten, int kombinations_index) {
-		final int anzahl_kombinationen = (int) Math.pow(3, patienten);
+		final int anzahl_kombinationen = (int) getPowerOf(3, patienten);
 
 		if(kombinations_index < 0 || kombinations_index >= anzahl_kombinationen) {
 			throw new IllegalArgumentException("Ungueltiger Kombinations-Index "+kombinations_index+" bei insgesamt "+anzahl_kombinationen+" Kombinationen.");
@@ -63,6 +63,14 @@ public class Kombi {
 		for(int i=0; i<dauer.length; i++) {
 			dauer[i] = 15;
 		}
+	}
+	
+	public double getPowerOf(int n, int k){
+		double ret = n;
+		for(int i = 1;i<k;i++){
+			ret *= n;
+		}
+		return ret;
 	}
 }
 

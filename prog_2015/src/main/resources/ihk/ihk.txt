@@ -1,0 +1,7 @@
+%	Nr.1: Strategie aus der Aufgabenstellung
+	15	30	20
+%	Nr.2: keine leelaufzeiten
+	15	15	15
+%   Nr.3: keine Wartezeiten
+	30	30	30
+	

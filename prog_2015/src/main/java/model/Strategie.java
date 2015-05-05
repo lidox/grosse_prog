@@ -21,7 +21,7 @@ public class Strategie implements IStrategie{
 		this.name = strategieName;
 		this.lstrategieListe = lstrategieListe;
 		setTerminZeitPunkte();
-		createAllKombinations();
+		//createAllKombinations();
 	}
 
 	private Calendar getTimeByString(String s){
@@ -57,31 +57,17 @@ public class Strategie implements IStrategie{
 			int phase2 = lstrategieListe.get(1);
 			int phase3 = lstrategieListe.get(2);
 			
-			Calendar start = getTimeByString("8:00");
-			
+			Calendar aktuelleZeit = getTimeByString("8:00");
 			
 			//lterminDauerWerte
 			List<Integer> terminDauer = new ArrayList<Integer>();
-			while(start.before(neunUhr)){
-				start.add(Calendar.MINUTE, phase1);
-				String addTime = getTimeByCalendar(start);
-				lterminZeitpunkte.add(addTime);
-				terminDauer.add(phase1);
-			}
 			
-			while(start.before(elfUhr)){
-				start.add(Calendar.MINUTE, phase2);
-				String addTime = getTimeByCalendar(start);
-				lterminZeitpunkte.add(addTime);
-				terminDauer.add(phase2);
-			}
+			generateTime(neunUhr, phase1, aktuelleZeit, terminDauer);
 			
-			while(start.before(zwoelfUhr)){
-				start.add(Calendar.MINUTE, phase3);
-				String addTime = getTimeByCalendar(start);
-				lterminZeitpunkte.add(addTime);
-				terminDauer.add(phase3);
-			}
+			generateTime(elfUhr, phase2, aktuelleZeit, terminDauer);
+			
+			generateTime(zwoelfUhr, phase3, aktuelleZeit, terminDauer);
+			
 			System.out.println();
 			String letzerTermin = lterminZeitpunkte.remove(lterminZeitpunkte.size()-1);//TODO: removen
 			int letzteDauer = terminDauer.remove(terminDauer.size()-1);
@@ -100,38 +86,22 @@ public class Strategie implements IStrategie{
 			// TODO: handle exception
 		}
 		
-//		lterminZeitpunkte.add("8:00");
-//		lterminZeitpunkte.add("8:15");
-//		lterminZeitpunkte.add("8:30");
-//		lterminZeitpunkte.add("8:45");
-//		lterminZeitpunkte.add("9:00");
-//		lterminZeitpunkte.add("9:30");
-//		lterminZeitpunkte.add("10:00");
-//		lterminZeitpunkte.add("10:30");
-//		lterminZeitpunkte.add("11:00");
-//		lterminZeitpunkte.add("11:20");
-//		lterminZeitpunkte.add("11:40");
-		
 	}
 
-	private void setTermindauerWerte() {
-//		lterminDauerWerte = new int[lterminZeitpunkte.size()];
-//		lterminDauerWerte[0]= 15;
-//		lterminDauerWerte[1]= 15;
-//		lterminDauerWerte[2]= 15;
-//		lterminDauerWerte[3]= 15;
-//		lterminDauerWerte[4]= 30;
-//		lterminDauerWerte[5]= 30;
-//		lterminDauerWerte[6]= 30;
-//		lterminDauerWerte[7]= 30;
-//		lterminDauerWerte[8]= 20;
-//		lterminDauerWerte[9]= 20;
-//		lterminDauerWerte[10]= 20;
+	private void generateTime(Calendar neunUhr, int phase1, Calendar start,
+			List<Integer> terminDauer) {
+		while(start.before(neunUhr)){
+			start.add(Calendar.MINUTE, phase1);
+			String addTime = getTimeByCalendar(start);
+			lterminZeitpunkte.add(addTime);
+			terminDauer.add(phase1);
+		}
 	}
 
-	private void createAllKombinations(){
+	public void createAllKombinations(){
+		long start = System.currentTimeMillis();
 	    int patienten = lterminZeitpunkte.size();
-		int anzahl_kombinationen = (int) Math.pow(3, patienten);
+		int anzahl_kombinationen = (int) getPowerOf(3,patienten);//Math.pow(3, patienten);
 		//TODO: check hier
 		anzahlKombinationen = new BigInteger(anzahl_kombinationen+"");
 		//
@@ -141,10 +111,11 @@ public class Strategie implements IStrategie{
 			Kombination kom = new Kombination(lterminDauerWerte, k.getKombi());
 			lKombinationen.add(kom);
 			k.next();
-
 		}
-		System.out.println();
-		//Kombination k = new Kombination(termine, kombination);
+		long delta = System.currentTimeMillis() - start;
+		
+		System.out.println("time: "+delta/1000.0);
+		System.out.println(this);
 	}
 	
 	/**
@@ -153,7 +124,7 @@ public class Strategie implements IStrategie{
 	public double getWZ() {
 		double sum = 0;
 		for (Kombination kombination : lKombinationen) {
-			sum+= kombination.getWZ();
+			sum+= kombination.getMWZ();
 		}
 		int anzahl = this.anzahlKombinationen.intValue();
 		return sum/ (double) anzahl;
@@ -165,10 +136,9 @@ public class Strategie implements IStrategie{
 	public double getMWZ() {
 		double sum = 0;
 		for (Kombination kombination : lKombinationen) {
-			sum+= kombination.getMWZ();
+			sum+= kombination.getWZ();
 		}
-		int anzahl = this.anzahlKombinationen.intValue();
-		return sum/ (double) anzahl;
+		return sum/ this.anzahlKombinationen.floatValue();
 	}
 
 	/**
@@ -204,7 +174,14 @@ public class Strategie implements IStrategie{
 		ret.append("LZ="+getLZ()+n);
 		ret.append("BS="+getBS());
 		
-		return null;
+		return ret.toString();
 	}
-
+	
+	public double getPowerOf(int n, int k){
+		double ret = n;
+		for(int i = 1;i<k;i++){
+			ret *= n;
+		}
+		return ret;
+	}
 }
