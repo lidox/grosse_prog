@@ -12,7 +12,7 @@ import java.util.List;
 import model.Strategie;
 
 /**
- * 
+ * liest dateien ein und speichert die ergebnisse in neuen dateien ab
  * @author artur.schaefer
  *
  */
@@ -63,6 +63,14 @@ public class InputOutput {
 		}
 	}
 	
+	/**
+	 * Liest die eingabe datei aus und prueft diese auf fehler
+	 * @param datei
+	 * 		die einzulesende datei
+	 * @return
+	 * 		eine liste aller strategien, die in der eingabedatei vorhanden ist
+	 * @throws Exception
+	 */
 	public List<Strategie> readInput(String datei) throws Exception {
 		List<Strategie> lStrategien = new ArrayList<Strategie>();
 		try {
@@ -89,11 +97,20 @@ public class InputOutput {
 			br.close();
 			return lStrategien;
 		} catch (Exception e) {
+			//TODO: eventuell hier anders vorgehen
 			System.out.println(e.getMessage());
 			throw new Exception("Die Datei " +datei + " konnte nicht gelesen werden.");
 		}
 	}
 	
+	/**
+	 * Erstellt eine neue ausgabedatei mit ausgabetext 
+	 * @param eingabeDatei
+	 * 			datei, die eingelesen wurde
+	 * @param strategieListe
+	 * 			liste mit allen strategien, die in der eingabedatei vorhanden waren
+	 * @throws Exception
+	 */
 	public void export(File eingabeDatei, List<Strategie> strategieListe) throws Exception{
 		// bestimme ausgabe datei name 
 		StringBuilder ausgabeDateiName = new StringBuilder(eingabeDatei.getAbsolutePath());
@@ -112,29 +129,30 @@ public class InputOutput {
 		}
 	
 		//ausgabe
-		StringBuilder a = new StringBuilder();
-		a.append(eingabeInhalt+"\n");
+		StringBuilder ausgabe = new StringBuilder();
+		ausgabe.append(eingabeInhalt+"\n");
 		int minIndex = 0;
 		
-		a.append(strategieListe.get(minIndex));
+		ausgabe.append(strategieListe.get(minIndex));
 		for (int i=1;i< strategieListe.size();i++) {
 			if(strategieListe.get(minIndex).getBS()>strategieListe.get(i).getBS()){
 				minIndex = i;
 			}
-			a.append(strategieListe.get(i));
+			ausgabe.append(strategieListe.get(i));
 		}
 		
-		a.append("");
-        a.append("Die Strategie \"" + strategieListe.get(minIndex).getName() + ("\" ist mit einer Bewertung von " 
+		ausgabe.append("");
+        ausgabe.append("Die Strategie \"" + strategieListe.get(minIndex).getName() + ("\" ist mit einer Bewertung von " 
 		+ Math.round(strategieListe.get(minIndex).getBS()*10000.0)/10000.0).replace(".",",")
 		+ " die beste der eingelesenen Strategien und sollte deshalb bei der Terminvergabe gewählt werden.");
 		
+        // schreibe in die datei rein
 		FileWriter fw;
 		try {
 			//z.B. "D:/Users/Artur/Desktop/ausgabe.plt"
 			fw = new FileWriter(ausgabeDateiName.toString());
 
-			fw.write(a.toString());
+			fw.write(ausgabe.toString());
 
 			fw.flush();
 

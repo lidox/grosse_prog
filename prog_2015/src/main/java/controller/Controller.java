@@ -25,10 +25,11 @@ public class Controller {
 	 * liest die dateien ein und starte jeweils die berechung
 	 * @throws Exception 
 	 */
-	public void starteBerechnung() throws Exception{
+	public void starteBerechnung(){
 		FilenameFilter dateiFilter = new FilenameFilter() {
-			// Ein Dateinamenfilter: Es duerfen nur Dateien mit der Endung
-			// .in ausgewaehlt werden.
+			/* Ein Dateinamenfilter: Es duerfen keine Dateien mit der Endung
+			   -out.txt ausgewaehlt werden. ist der optionale parameter belegt,
+			   so wird die ausgabedatei nicht als eingabe akzeptiert */
 			public boolean accept(File arg0, String arg1) {
 				String dateiEnde = "-out.txt";
 				if(io.getAusgabeDateiName()!=null){
@@ -50,21 +51,21 @@ public class Controller {
 			
 			File[] eingabeDateien = io.read(ordnerpfad + "/"+ inputDateien[i], dateiFilter);
 			for (File eingabeDatei : eingabeDateien) {
-				// Durchlaufe alle gefunden .in-Dateien und berechne die
-				// Ergebnisse.
+				// Durchlaufe alle gefunden und berechne die Ergebnisse
 				List<Strategie> strategieListe = null;
 				try {
+					// lese jede strategie und speichere in einer liste
 					strategieListe  = io.readInput(eingabeDatei.getAbsolutePath());
 					if(strategieListe ==null){
 						continue;
 					}
+					// exportiere die ergebnisse in eine datei
+					io.export(eingabeDatei, strategieListe);
 				} catch (Exception e) {
 					// TODO: es ist ein fehler aufgetretten, also export fehler
 					eingabeDatei.getName();
 					e.printStackTrace();
 				}
-
-				io.export(eingabeDatei, strategieListe);
 			}
 		}
 	}

@@ -3,7 +3,7 @@ package model;
 
 /**
  * 
- * @author schaefer.artur
+ * @author artur.schaefer
  *
  */
 public class Kombination {
