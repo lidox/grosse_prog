@@ -7,6 +7,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 
+ * @author artur.schaefer
+ *
+ */
 public class Strategie implements IStrategie{
 	
 	private String name;
@@ -14,27 +19,28 @@ public class Strategie implements IStrategie{
 	private List<Integer> lstrategieListe = new ArrayList<Integer>();
 	private int[] lterminDauerWerte;
 	private BigInteger anzahlKombinationen=null;
-	private List<Kombination> lKombinationen = new ArrayList<Kombination>();
+	private double wz = 0;
+	private double mwz = 0;
+	private double lz = 0;
 	
- 
-	public Strategie(String strategieName, List<Integer> lstrategieListe) {
+	public Strategie(String strategieName, List<Integer> lstrategieListe) throws Exception {
 		this.name = strategieName;
 		this.lstrategieListe = lstrategieListe;
 		setTerminZeitPunkte();
-		//createAllKombinations();
+		createAllKombinations();
 	}
 
-	private Calendar getTimeByString(String s){
-		Calendar cal1 = Calendar.getInstance();
+	private Calendar getTimeByString(String time) throws Exception{
+		Calendar zeit = Calendar.getInstance();
 		try {
-			SimpleDateFormat dfs = new SimpleDateFormat("HH:mm");
-			Date d1 = dfs.parse(s);
-			cal1.setTime(d1);
+			SimpleDateFormat datumsFormat = new SimpleDateFormat("HH:mm");
+			Date date = datumsFormat.parse(time); 
+			zeit.setTime(date);
 		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO: handle exception
+			System.out.println(e.getMessage());
+			throw new Exception("Die folgende angegebene Zeit ist fehlerhaft:"+time);
 		}
-		return cal1;
+		return zeit;
 	}
 	
 	private String getTimeByCalendar(Calendar cal){
@@ -45,8 +51,9 @@ public class Strategie implements IStrategie{
 	
 	/**
 	 * setzt die termin uhrzeiten
+	 * @throws Exception 
 	 */
-	private void setTerminZeitPunkte() {
+	private void setTerminZeitPunkte() throws Exception {
 		try {
 			lterminZeitpunkte.add("8:00");
 			Calendar neunUhr = getTimeByString("9:00");
@@ -68,38 +75,35 @@ public class Strategie implements IStrategie{
 			
 			generateTime(zwoelfUhr, phase3, aktuelleZeit, terminDauer);
 			
-			System.out.println();
-			String letzerTermin = lterminZeitpunkte.remove(lterminZeitpunkte.size()-1);//TODO: removen
+			String letzerTermin = lterminZeitpunkte.remove(lterminZeitpunkte.size()-1);
 			int letzteDauer = terminDauer.remove(terminDauer.size()-1);
 			long x = getTimeByString(letzerTermin).getTimeInMillis();
 			long y = zwoelfUhr.getTimeInMillis(); 
-			long z = (x-y)*1000*60;
+			long z = (x-y)/1000/60;
 			int g = (int) (letzteDauer - z);
 			terminDauer.add(g);
 			lterminDauerWerte = new int[terminDauer.size()];
 			for(int i = 0;i<terminDauer.size();i++){
 				lterminDauerWerte[i]= terminDauer.get(i);
 			}
-			System.out.println();
 		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO: handle exception
+			System.out.println(e.getMessage());
+			throw new Exception("Fuer die Strategie '"+getName()+"' konnten die Termine nicht berechnet werden.");
 		}
 		
 	}
 
-	private void generateTime(Calendar neunUhr, int phase1, Calendar start,
+	private void generateTime(Calendar uhrzeit, int phase, Calendar start,
 			List<Integer> terminDauer) {
-		while(start.before(neunUhr)){
-			start.add(Calendar.MINUTE, phase1);
+		while(start.before(uhrzeit)){
+			start.add(Calendar.MINUTE, phase);
 			String addTime = getTimeByCalendar(start);
 			lterminZeitpunkte.add(addTime);
-			terminDauer.add(phase1);
+			terminDauer.add(phase);
 		}
 	}
 
 	public void createAllKombinations(){
-		long start = System.currentTimeMillis();
 	    int patienten = lterminZeitpunkte.size();
 		int anzahl_kombinationen = (int) getPowerOf(3,patienten);//Math.pow(3, patienten);
 		//TODO: check hier
@@ -109,48 +113,33 @@ public class Strategie implements IStrategie{
 		for(int i=0; i<anzahl_kombinationen; i++) {
 			//System.out.println("Kombination "+i+": "+Arrays.toString(k.getKombi()));
 			Kombination kom = new Kombination(lterminDauerWerte, k.getKombi());
-			lKombinationen.add(kom);
+			this.wz += kom.getWZ();
+			this.mwz += kom.getMWZ();
+			this.lz += kom.getLZ();
+			//lKombinationen.add(kom);
 			k.next();
 		}
-		long delta = System.currentTimeMillis() - start;
-		
-		System.out.println("time: "+delta/1000.0);
-		System.out.println(this);
 	}
 	
 	/**
 	 * durchschnittliche mittlere wartezeit
 	 */
 	public double getWZ() {
-		double sum = 0;
-		for (Kombination kombination : lKombinationen) {
-			sum+= kombination.getMWZ();
-		}
-		int anzahl = this.anzahlKombinationen.intValue();
-		return sum/ (double) anzahl;
+		return this.wz/ this.anzahlKombinationen.intValue();
 	}
 
 	/**
 	 * durchschnittliche maximale wartezeit
 	 */
 	public double getMWZ() {
-		double sum = 0;
-		for (Kombination kombination : lKombinationen) {
-			sum+= kombination.getWZ();
-		}
-		return sum/ this.anzahlKombinationen.floatValue();
+		return this.mwz/ this.anzahlKombinationen.intValue();
 	}
 
 	/**
 	 * durchschnittliche Leerlaufzeit
 	 */
 	public double getLZ() {
-		double sum = 0;
-		for (Kombination kombination : lKombinationen) {
-			sum+= kombination.getLZ();
-		}
-		int anzahl = this.anzahlKombinationen.intValue();
-		return sum/ (double) anzahl;
+		return this.lz/ this.anzahlKombinationen.intValue();
 	}
 
 	/**
@@ -163,16 +152,27 @@ public class Strategie implements IStrategie{
 	public String toString(){
 		StringBuilder ret = new StringBuilder();
 		String n = "\n";
+		String tab = "\t";
+		double rounded = 0.0;
 		ret.append(name+n);
 		ret.append("Terminverteilung bei dieser Strategie:"+n);
 		for (String t : lterminZeitpunkte) {
 			ret.append(t+" ");
 		}
-		ret.append("Bei "+anzahlKombinationen +" Kombinationen"+n);
-		ret.append("WZ="+getWZ()+n);
-		ret.append("MWZ="+getMWZ()+n);
-		ret.append("LZ="+getLZ()+n);
-		ret.append("BS="+getBS());
+		ret.append(n+n+"Bei "+anzahlKombinationen +" Kombinationen der Behandlungsdauern ergen sich folgende Zeiten:"+n);
+		
+		rounded = Math.round(10000.0*getWZ())/10000.0;
+		ret.append(" durchschnittliche mittlere Wartezeit"+tab+" WZ = "+String.format("%.4f\n",rounded));
+		
+		
+		rounded = Math.round(10000.0*getMWZ())/10000.0;
+		ret.append(" durchschnittliche maximale Wartezeit"+tab+"MWZ = "+String.format("%.4f\n",rounded));
+		
+		rounded = Math.round(10000.0*getLZ())/10000.0;
+		ret.append(" durchschnittliche maximale Wartezeit"+tab+" LZ = "+String.format("%.4f\n",rounded));
+		
+		rounded = Math.round(10000.0*getBS())/10000.0;
+		ret.append(" Gesamtbewertung der Strategie"+tab+tab+tab+" BS = "+String.format("%.4f\n",rounded)+n);
 		
 		return ret.toString();
 	}
@@ -183,5 +183,9 @@ public class Strategie implements IStrategie{
 			ret *= n;
 		}
 		return ret;
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 }

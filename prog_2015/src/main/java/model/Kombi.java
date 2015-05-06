@@ -7,25 +7,23 @@ public class Kombi {
 
 	private int[] dauer;
 	
-	public Kombi(int patienten, int kombinations_index) {
-		final int anzahl_kombinationen = (int) getPowerOf(3, patienten);
+	public Kombi(int terminAnzahl, int index) {
+		final int kombinationenAnzahl = (int) getPowerOf(3, terminAnzahl);
 
-		if(kombinations_index < 0 || kombinations_index >= anzahl_kombinationen) {
-			throw new IllegalArgumentException("Ungueltiger Kombinations-Index "+kombinations_index+" bei insgesamt "+anzahl_kombinationen+" Kombinationen.");
+		if(index < 0 || index >= kombinationenAnzahl) {
+			throw new IllegalArgumentException("Ungueltiger index "+index+" bei insgesamt "+kombinationenAnzahl+" Kombinationen.");
 		}
 		
-		dauer = new int[patienten];
+		dauer = new int[terminAnzahl];
+		int tmp = index;
 		
-		int a = kombinations_index;
-		
-		for(int i=0; i<patienten; i++) {
-			switch(a % 3) {
-			case 0: dauer[i] = 15; break;
-			case 1: dauer[i] = 20; break;
-			case 2: dauer[i] = 30; break;
+		for(int i=0; i<terminAnzahl; i++) {
+			switch(tmp % 3) {
+				case 0: dauer[i] = 15; break;
+				case 1: dauer[i] = 20; break;
+				case 2: dauer[i] = 30; break;
 			}
-			
-			a /= 3;
+			tmp = tmp/3;
 		}
 	}
 	
@@ -53,9 +51,9 @@ public class Kombi {
 		// "Addiere ternaere Zahl um eins"
 		for(int i=0; i<dauer.length; i++) {
 			switch(dauer[i]) {
-			case 15: dauer[i] = 20; return;
-			case 20: dauer[i] = 30; return;
-			case 30: dauer[i] = 15; break;
+				case 15: dauer[i] = 20; return;
+				case 20: dauer[i] = 30; return;
+				case 30: dauer[i] = 15; break;
 			}
 		}
 		

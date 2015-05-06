@@ -30,7 +30,17 @@ public class KombinationTest {
 	@Test
 	public void testNachYannik(){
 		int[] termine = {15,15,15,15,30,30,30,30,20,20,20};
-		int[] kom = {15, 30, 20, 15, 15, 15, 15, 15, 15, 30, 15};
+		int[] kom = {20, 20, 20, 20, 20, 20, 20, 30, 30, 30, 30};
+		kombi = new Kombination(termine, kom);
+		System.out.println("Leerlauf="+kombi.getLZ());
+		System.out.println("Wartezeit="+kombi.getWZ());
+		System.out.println("Mittlere="+kombi.getMWZ());
+	}
+	
+	@Test
+	public void testNachYannik2(){
+		int[] termine = {20,20,20,15,15,15,15,15,15,15,15, 30, 30};
+		int[] kom = {15,15,15, 20, 20,15,15,15,15,15,15,15,20 };
 		kombi = new Kombination(termine, kom);
 		System.out.println("Leerlauf="+kombi.getLZ());
 		System.out.println("Wartezeit="+kombi.getWZ());

@@ -1,24 +1,47 @@
 package model;
 
 
-
+/**
+ * 
+ * @author schaefer.artur
+ *
+ */
 public class Kombination {
 	private int[][] feld;
 	private int verstrichenEnd = 0;
 	private int realeEnd = 0;
 	
 	public Kombination(int[] termine, int[] kombination){
-		feld = new int[4][termine.length];
+		feld = new int[6][termine.length];
 		feld[3] = kombination;
 		setVerstricheneZeit(termine);
 		setRealeZeit();
 		setDifferenz();
-		//System.out.println(Arrays.toString(feld[3]));
-		if(kombination[0]==15 && kombination[1]==30 && kombination[2]==20 && kombination[4]==15 && kombination[9]==30){
-			System.out.print(""); 
-		}
+		setX();
+		setY();
 	}
 	
+	private void setY() {
+		for (int i = 0; i < feld[5].length; i++) {
+			feld[5][i] = feld[4][i]-feld[0][i];
+		}
+	}
+
+	private void setX() {
+		feld[4][0] = 0;
+		int i=1;
+		for(;i<feld[0].length;i++){
+			int v = feld[0][i-1];
+			int x = feld[4][i-1];
+			int big = x;
+			if(v>x){
+				big = v;
+			}
+			big = big + feld[3][i-1]; 
+			feld[4][i]=big;
+		}
+	}
+
 	private void setVerstricheneZeit(int[] termine){
 		int sum = 0;
 		int i = 1;
@@ -47,30 +70,14 @@ public class Kombination {
 		}
 	}
 	
-	public double getWZ(){
-		int max = feld[2][0];
-		for (int i = 1; i < feld[2].length; i++) {
-			if(max< feld[2][i]){
-				max = feld[2][i];
+	public double getMWZ(){
+		double max = 0;
+		for (int i = 1; i < feld[5].length; i++) {
+			if(max< feld[5][i]){
+				max = feld[5][i];
 			}
 		}
-		return max;
-	}
-	
-	public double getLZ_oldversion(){//TODO: delete da alt
-		double l = feld[2][feld[2].length-1];
-		if(l<0){
-			return l*(-1);
-		}
-		return 0;
-	}
-	
-	public double getLZ_old2(){
-		double l = realeEnd - verstrichenEnd;
-		if(l<0){
-			return l*(-1);
-		}
-		return 0;
+		return (double)max;
 	}
 	
 	public double getLZ(){
@@ -86,13 +93,13 @@ public class Kombination {
 		return 0;
 	}
 	
-	public double getMWZ(){
+	public double getWZ(){
 		double sum = 0;
-		for (int i = 1; i < feld[2].length; i++) {
-			if(feld[2][i]>0){
-				sum+=feld[2][i];
+		for (int i = 1; i < feld[5].length; i++) {
+			if(feld[5][i]>0){
+				sum+=feld[5][i];
 			}
 		}
-		return sum /  feld[2].length;
+		return sum /  (double) feld[5].length;
 	}
 }

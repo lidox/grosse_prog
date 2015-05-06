@@ -1,17 +1,18 @@
 package controller;
 
-import io.Ausgabe;
-import io.Eingabe;
 import io.InputOutput;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import model.Strategie;
 
+/**
+ * 
+ * @author artur.schaefer
+ *
+ */
 public class Controller {
 	
 	private InputOutput io;
@@ -20,12 +21,20 @@ public class Controller {
 		this.io = argIO;
 	}
 	
-	public void starteBerechnung(){
+	/**
+	 * liest die dateien ein und starte jeweils die berechung
+	 * @throws Exception 
+	 */
+	public void starteBerechnung() throws Exception{
 		FilenameFilter dateiFilter = new FilenameFilter() {
 			// Ein Dateinamenfilter: Es duerfen nur Dateien mit der Endung
 			// .in ausgewaehlt werden.
 			public boolean accept(File arg0, String arg1) {
-				return arg1.endsWith("");
+				String dateiEnde = "-out.txt";
+				if(io.getAusgabeDateiName()!=null){
+					dateiEnde = io.getAusgabeDateiName();
+				}
+				return !arg1.endsWith(dateiEnde);
 			}
 		};
 		
@@ -35,48 +44,29 @@ public class Controller {
 
 		String[] inputDateien = ordner.list(dateiFilter);
 
+		// Durchlaufe alle gefunden Dateien und berechne die Ergebnisse
 		for (int i = 0; i < inputDateien.length; i++) {
-			// Durchlaufe alle gefunden .in-Dateien und berechne die
-			// Ergebnisse.
-			System.out.println();
-			System.out.println("Folgende Datei wird nun bearbeitet: "
-					+ inputDateien[i]);
+			System.out.println("Folgende Datei wird nun bearbeitet: "+ inputDateien[i]);
 			
 			File[] eingabeDateien = io.read(ordnerpfad + "/"+ inputDateien[i], dateiFilter);
 			for (File eingabeDatei : eingabeDateien) {
 				// Durchlaufe alle gefunden .in-Dateien und berechne die
 				// Ergebnisse.
-				List<Strategie> a=null;
+				List<Strategie> strategieListe = null;
 				try {
-					a = readInput(eingabeDatei);
-					if(a==null){
+					strategieListe  = io.readInput(eingabeDatei.getAbsolutePath());
+					if(strategieListe ==null){
 						continue;
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					// TODO: es ist ein fehler aufgetretten, also export fehler
+					eingabeDatei.getName();
 					e.printStackTrace();
 				}
-				
-				long start = System.currentTimeMillis();
-				for(Strategie item: a){
-					item.createAllKombinations();
-				}
-				//TODO: hier den algo starten
-				//export(eingabeDatei);
-				
+
+				io.export(eingabeDatei, strategieListe);
 			}
 		}
 	}
 	
-	public List<Strategie> readInput(File eingabeDatei) throws Exception{
-		List<Strategie> feld = io.readInput(eingabeDatei.getAbsolutePath());
-		return feld;
-	}
-	
-	public void export(File eingabeDatei){
-		StringBuilder ret = new StringBuilder(eingabeDatei.getAbsolutePath());
-		ret.delete(eingabeDatei.getAbsolutePath().length()-3, eingabeDatei.getAbsolutePath().length());
-		ret.append(".plt");
-		//ausgabe.export(feld, ret.toString());
-	}
 }
