@@ -27,12 +27,12 @@ public class Kombination {
 		}
 	}
 
-	private void setX() {
-		feld[4][0] = 0;
+	private void setX() {//maximal verstrichenezeit
+		feld[4][0] = 0;//nötig?
 		int i=1;
 		for(;i<feld[0].length;i++){
-			int v = feld[0][i-1];
-			int x = feld[4][i-1];
+			int v = feld[0][i-1];// //TODO; verkürzen
+			int x = feld[4][i-1]; // hier auch
 			int big = x;
 			if(v>x){
 				big = v;
@@ -42,20 +42,30 @@ public class Kombination {
 		}
 	}
 
+	/**
+	 * belegt das feld in der ersten Zeile mit den
+	 * geplanten Termindauern (summiert)
+	 * @param termine
+	 */
 	private void setVerstricheneZeit(int[] termine){
 		int sum = 0;
 		int i = 1;
 		for(;i<termine.length;i++){
 			int a = termine[i-1];
-			sum += a;
+			sum += a; // TODO: a nötig?siehe setRealeZeit. dort nicht
 			feld[0][i] = sum;
 		}
 		this.verstrichenEnd = sum + termine[i-1];
 	}
 	
+	/**
+	 * berechnet die tatsaechlich verstrichene Zeit der
+	 * jeweiligen Termine, die durch die generierte
+	 * Kombination representiert werden (summiert)
+	 */
 	private void setRealeZeit(){
 		int gesamt = 0;
-		feld[1][0] = 0;
+		feld[1][0] = 0;//TODO: nötig?
 		int i = 1;
 		for(;i<feld[3].length;i++){
 			gesamt += feld[3][i-1];
@@ -64,6 +74,10 @@ public class Kombination {
 		this.realeEnd  = gesamt + feld[3][i-1];
 	}
 	
+	/**
+	 * berechnet die Differenz zwischen den einzelnen tatsaechlichen
+	 * Termindauern und den geplanten Termindauern
+	 */
 	private void setDifferenz(){
 		for (int i = 0; i < feld[0].length; i++) {
 			feld[2][i] = feld[1][i]-feld[0][i];
