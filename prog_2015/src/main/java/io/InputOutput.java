@@ -196,8 +196,14 @@ public class InputOutput {
 		}
 	}
 
+	/**
+	 * erzeugt den von der IHK vorgegebenen ausgabetext
+	 * @param strategieListe
+	 * 		liste der strategien, die in die ausgabe einbezogen werden sollen
+	 * @return
+	 * 		gibt den erzeugten stringbuilder zurueck
+	 */
 	public StringBuilder getErgebnisse(List<Strategie> strategieListe) {
-		//ausgabe
 		StringBuilder ausgabe = new StringBuilder();
 		ausgabe.append(eingabeInhalt+"\n");
 		int minIndex = 0;

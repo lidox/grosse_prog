@@ -1,8 +1,0 @@
-%	Nr.1: Strategie aus der Aufgabenstellung
- 15	30	20
-%   Nr.2: keine Wartezeiten
- 30	30	30
-%   Nr.3: einhaltliche und einfache Terminabstaende
- 20	20	20
-%	Nr.4: Variation von 20 20 20
- 19	21	22

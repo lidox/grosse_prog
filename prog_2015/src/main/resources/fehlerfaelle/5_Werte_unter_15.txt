@@ -1,4 +1,0 @@
-%	Testfall, wo Zahlen unter 15 ausgesucht werden
-	4	12	10
-%	Und ein zweiter
-	7	14	0
