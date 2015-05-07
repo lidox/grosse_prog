@@ -1,2 +1,0 @@
-% Testfall mit boolean anstatt Integerwerten
-	true	false	true

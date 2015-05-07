@@ -1,2 +1,0 @@
-%	Testfall, wo negative Werte ausgewaehlt werden
-	-2	4	-10

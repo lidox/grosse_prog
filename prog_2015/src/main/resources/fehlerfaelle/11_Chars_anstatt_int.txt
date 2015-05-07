@@ -1,2 +1,0 @@
-% Testfall mit Chars anstatt Integerwerten
-	a	b	c

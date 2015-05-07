@@ -1,4 +1,0 @@
-% Testfall mit Leerzeichen anstatt Tabs
- 22 17 28
-    %Ein Testfall mit mehreren Leerzeichen dazwischen
-	  17  23       17

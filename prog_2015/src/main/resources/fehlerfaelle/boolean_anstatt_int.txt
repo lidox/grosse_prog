@@ -1,0 +1,2 @@
+% Wahrheitswerte
+	true	false	true

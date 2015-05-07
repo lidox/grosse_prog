@@ -1,0 +1,4 @@
+%Eine andere Formatierung	
+18 20 24
+%			was passiert 	hier?
+				28	21	19

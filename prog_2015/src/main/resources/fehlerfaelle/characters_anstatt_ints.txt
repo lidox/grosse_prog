@@ -1,0 +1,2 @@
+% Charakter anstatt ganze Zahlen
+	A	B	C

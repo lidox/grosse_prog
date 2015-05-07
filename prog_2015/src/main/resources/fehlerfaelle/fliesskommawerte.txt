@@ -1,0 +1,4 @@
+%	Doublewerte anstatt Integerwerte 
+	16.6	17.4	20.0
+%	Doublewerte mit Komma seperiert
+	16,3	16,7	23,7

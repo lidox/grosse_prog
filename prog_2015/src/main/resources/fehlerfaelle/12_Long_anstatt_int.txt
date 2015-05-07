@@ -1,2 +1,0 @@
-% Testfall mit Longs anstatt Integerwerten
-	16L	22L	27L

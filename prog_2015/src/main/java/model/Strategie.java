@@ -22,11 +22,17 @@ public class Strategie implements IStrategie{
 	private double wz = 0;
 	private double mwz = 0;
 	private double lz = 0;
+	private int[] dauer;
 	
 	public Strategie(String strategieName, List<Integer> lstrategieListe) throws Exception {
 		this.name = strategieName;
 		this.lstrategieListe = lstrategieListe;
 		setTerminZeitPunkte();
+		
+		dauer = new int[lterminDauerWerte.length];
+		for(int i=0; i<lterminDauerWerte.length; i++) {
+			dauer[i] = 15;
+		}
 		createAllKombinations();
 	}
 
@@ -109,15 +115,15 @@ public class Strategie implements IStrategie{
 		//TODO: check hier
 		anzahlKombinationen = new BigInteger(anzahl_kombinationen+"");
 		//
-		Kombi k = new Kombi(patienten, 0);
+		//Kombi k = new Kombi(patienten, 0);
 		for(int i=0; i<anzahl_kombinationen; i++) {
 			//System.out.println("Kombination "+i+": "+Arrays.toString(k.getKombi()));
-			Kombination kom = new Kombination(lterminDauerWerte, k.getKombi());
+			Kombination kom = new Kombination(lterminDauerWerte,dauer);
 			this.wz += kom.getWZ();
 			this.mwz += kom.getMWZ();
 			this.lz += kom.getLZ();
 			//lKombinationen.add(kom);
-			k.next();
+			next();
 		}
 	}
 	
@@ -187,5 +193,21 @@ public class Strategie implements IStrategie{
 	
 	public String getName(){
 		return this.name;
+	}
+	
+	public void next() {
+		// "belege zahl um eins von (20,30,15) weiter"
+		for(int j=0; j<dauer.length; j++) {
+			switch(dauer[j]) {
+				case 15: dauer[j] = 20; return;
+				case 20: dauer[j] = 30; return;
+				case 30: dauer[j] = 15; break;
+			}
+		}
+		
+		// bei ueberlauf -> fange wieder mit erster kombination an
+		for(int j=0; j<dauer.length; j++) {
+			dauer[j] = 15;
+		}
 	}
 }

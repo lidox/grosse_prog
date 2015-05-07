@@ -1,4 +1,0 @@
-%Hier wird eine andere Formatierung benutzt			
-20 20 29
-%			mal sehen wie 	diese zum Schluss aussieht
-				18	21	19

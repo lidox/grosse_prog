@@ -1,4 +1,0 @@
-%	Ein Testfall, wo Doublewerte anstatt Integerwerte drin vorkommen
-	15.6	16.8	20.0
-%	Und ein Fall, wo die Doublewerte mit Komma seperiert sind
-	20,6	26,7	25,7

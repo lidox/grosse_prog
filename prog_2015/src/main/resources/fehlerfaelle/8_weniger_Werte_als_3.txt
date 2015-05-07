@@ -1,2 +1,0 @@
-%	Testfall, mit weniger Werten
-	18	15
