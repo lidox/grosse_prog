@@ -17,17 +17,17 @@ public class Kombination {
 		setVerstricheneZeit(termine);
 		setRealeZeit();
 		setDifferenz();
-		setX();
-		setY();
+		setMaxVerstricheneZeit();
+		setDifferenzMaxVerstrichenUndGeplanteTerminDauer();
 	}
 	
-	private void setY() {
+	private void setDifferenzMaxVerstrichenUndGeplanteTerminDauer() {
 		for (int i = 0; i < feld[5].length; i++) {
 			feld[5][i] = feld[4][i]-feld[0][i];
 		}
 	}
 
-	private void setX() {//maximal verstrichenezeit
+	private void setMaxVerstricheneZeit() {
 		feld[4][0] = 0;//nötig?
 		int i=1;
 		for(;i<feld[0].length;i++){

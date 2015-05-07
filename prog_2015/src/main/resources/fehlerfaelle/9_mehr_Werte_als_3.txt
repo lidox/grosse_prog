@@ -1,0 +1,2 @@
+%	Testfall, mit mehr Werten
+	26	15	30	17

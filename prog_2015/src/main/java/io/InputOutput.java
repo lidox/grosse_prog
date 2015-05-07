@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import model.Strategie;
@@ -71,38 +72,87 @@ public class InputOutput {
 	 * 		eine liste aller strategien, die in der eingabedatei vorhanden ist
 	 * @throws Exception
 	 */
+	@SuppressWarnings("resource")
 	public List<Strategie> readInput(String datei) throws Exception {
 		List<Strategie> lStrategien = new ArrayList<Strategie>();
-		try {
+		
 			BufferedReader br = new BufferedReader(new FileReader(datei));
 			String line;
 						
-			
-			while ((line = br.readLine()) != null) {
+			boolean firstIteration = true;
+			while ((line = br.readLine()) != null ) {
 				// speichere den Inhalt der Eingabedatei
 				this.eingabeInhalt= this.eingabeInhalt + line + "\n";
-				if(line.startsWith("%")){
-					List<Integer> l = new ArrayList<Integer>();
-					String strategieName = line;
-					line = br.readLine().trim();
-					this.eingabeInhalt= this.eingabeInhalt + line + "\n";
-					String[] s = line.split("\t");
-					for(String item: s){
-						l.add(Integer.parseInt(item));
-					}
-					lStrategien.add(new Strategie(strategieName,l));
+				String secondLine = br.readLine();
+				
+				validateInput(line,secondLine);
+				
+				line = line.trim();
+				List<Integer> l = new ArrayList<Integer>();
+				String strategieName = line;
+				this.eingabeInhalt= this.eingabeInhalt + secondLine + "\n";
+				secondLine = secondLine.trim();
+				String[] s = secondLine.split("\t");
+			    for(String item: s){
+					l.add(Integer.parseInt(item));
 				}
+			    firstIteration = false;
+				lStrategien.add(new Strategie(strategieName,l));
 			}
-			
+			if(firstIteration && line==null){
+				throw new IllegalArgumentException("Fehlerhafte Eingabe! Die Datei darf nicht leer sein");
+			}
 			br.close();
 			return lStrategien;
-		} catch (Exception e) {
-			//TODO: eventuell hier anders vorgehen
-			System.out.println(e.getMessage());
-			throw new Exception("Die Datei " +datei + " konnte nicht gelesen werden.");
-		}
+
 	}
 	
+	/**
+	 * prueft jeweils zwei untereinander liegende zeilen der eingabedatei auf eingabefehler
+	 * @param line
+	 * 		jeweils erste zeile
+	 * @param secondLine
+	 * 		jeweils zweite zeile
+	 * @return
+	 * 		true wenn die eingabe fehlerfrei ist, sonst exception
+	 * @throws Exception
+	 */
+	private boolean validateInput(String firstLine, String secondLine) throws Exception {
+		if(firstLine == null || firstLine.equals("")){
+			throw new Exception("Fehlerhafte Eingabe! Die  Zeile '"+ firstLine+"' darf nicht leer sein.");
+		}
+		if(!firstLine.startsWith("%")){
+			throw new Exception("Fehlerhafte Eingabe! Die  Zeile '"+ firstLine+"' muss mit einem '%' anfangen.");
+		}
+		if(secondLine == null || secondLine.equals("")){
+			throw new Exception("Es fehlt eine Zeile nach '"+ firstLine+ "'.");
+		}
+		secondLine = secondLine.trim();
+		if(secondLine.startsWith("%")){
+			throw new Exception("Fehlerhafte Eingabe! Die  Zeile '"+ secondLine+"' darf nicht mit einem '%' anfangen.");
+		}
+		if(!secondLine.contains("\t")){
+			throw new Exception("Fehlerhafte Eingabe! In der  Zeile '"+ secondLine+"' müssen die Werte mit einem 'TAB' getrennt sein.");
+		}
+		String[] werte = null;
+		if((werte = secondLine.split("\t")).length!=3){
+			throw new Exception("Fehlerhafte Eingabe! In der  Zeile '"+ secondLine+"' müssen genau drei Werte jeweils mit einem 'TAB' getrennt sein. "
+					+"Es konnte nur "+Arrays.toString(werte)+" eingelesen werden.");
+		}
+		for (String strategieWert : werte) {
+			int wert;
+			try {
+				wert =Integer.parseInt(strategieWert);
+			} catch (Exception e) {
+				throw new Exception("Fehlerhafte Eingabe! In der  Zeile '"+ secondLine+"' müssen alle Werte ganze Zahlen sein.");
+			}
+			if(wert<15 || wert>30 ){
+				throw new Exception("Fehlerhafte Eingabe! In der  Zeile '"+ secondLine+"' müssen alle Werte größer als 14 und kleiner als 31 sein.");
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Erstellt eine neue ausgabedatei mit ausgabetext 
 	 * @param eingabeDatei
@@ -111,7 +161,7 @@ public class InputOutput {
 	 * 			liste mit allen strategien, die in der eingabedatei vorhanden waren
 	 * @throws Exception
 	 */
-	public void export(File eingabeDatei, List<Strategie> strategieListe) throws Exception{
+	public void exportData(File eingabeDatei, String ausgabe){
 		// bestimme ausgabe datei name 
 		StringBuilder ausgabeDateiName = new StringBuilder(eingabeDatei.getAbsolutePath());
 		int pointIndex = eingabeDatei.getAbsolutePath().lastIndexOf(".");
@@ -127,7 +177,26 @@ public class InputOutput {
 				ausgabeDateiName.append("-out.txt");
 			}
 		}
-	
+		
+        // schreibe in die datei rein
+		FileWriter fw;
+		try {
+			//z.B. "D:/Users/Artur/Desktop/ausgabe.plt"
+			fw = new FileWriter(ausgabeDateiName.toString());
+
+			fw.write(ausgabe);
+
+			fw.flush();
+
+			fw.close();
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			throw new IllegalArgumentException("Die Datei " +ausgabeDateiName.toString() + " konnte nicht beschrieben werden.");
+		}
+	}
+
+	public StringBuilder getErgebnisse(List<Strategie> strategieListe) {
 		//ausgabe
 		StringBuilder ausgabe = new StringBuilder();
 		ausgabe.append(eingabeInhalt+"\n");
@@ -145,22 +214,6 @@ public class InputOutput {
         ausgabe.append("Die Strategie \"" + strategieListe.get(minIndex).getName() + ("\" ist mit einer Bewertung von " 
 		+ Math.round(strategieListe.get(minIndex).getBS()*10000.0)/10000.0).replace(".",",")
 		+ " die beste der eingelesenen Strategien und sollte deshalb bei der Terminvergabe gewählt werden.");
-		
-        // schreibe in die datei rein
-		FileWriter fw;
-		try {
-			//z.B. "D:/Users/Artur/Desktop/ausgabe.plt"
-			fw = new FileWriter(ausgabeDateiName.toString());
-
-			fw.write(ausgabe.toString());
-
-			fw.flush();
-
-			fw.close();
-
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			throw new Exception("Die Datei " +ausgabeDateiName.toString() + " konnte nicht beschrieben werden.");
-		}
+		return ausgabe;
 	}
 }

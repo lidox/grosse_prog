@@ -1,0 +1,4 @@
+%	Testfall, wo Zahlen über 30 ausgesucht werden
+	33	40	37
+%	Und ein zweiter
+	41	50	100

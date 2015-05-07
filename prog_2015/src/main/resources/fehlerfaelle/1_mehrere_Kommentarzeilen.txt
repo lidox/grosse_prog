@@ -1,0 +1,6 @@
+%	Nr.1: Zwei Kommentarzeilen nacheinander
+%	Hier ist die 2.
+	15	20	25
+%	Nr 2: immer die selben Zeiten
+	20 20 20
+	

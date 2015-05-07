@@ -1,0 +1,3 @@
+%	Eine Eingabedatei wo zum Schluss ein Kommentar steht
+	21	20	25
+%	Und hier ist der letzte Kommentar

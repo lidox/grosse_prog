@@ -60,11 +60,11 @@ public class Controller {
 						continue;
 					}
 					// exportiere die ergebnisse in eine datei
-					io.export(eingabeDatei, strategieListe);
+					String ausgabe = io.getErgebnisse(strategieListe).toString();
+					io.exportData(eingabeDatei, ausgabe);
 				} catch (Exception e) {
 					// TODO: es ist ein fehler aufgetretten, also export fehler
-					eingabeDatei.getName();
-					e.printStackTrace();
+					io.exportData(eingabeDatei, e.getMessage());
 				}
 			}
 		}
