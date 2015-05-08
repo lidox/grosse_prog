@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;Klasse: Kombination&#34;,&#34;&#34;,&#34;Methode: getLZ&#34;" comment="&#34;&#34;" color="ffffff" type="program" style="nice">
+	<children>
+		<instruction text="&#34;Initialisiere max-Variable mit der Differenz, der jeweils letzten Werten von der tatsächlichen verstrichenen Zeit und der geplanten summierten Termindauer&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+		<while text="&#34;Durchlaufe das Feld für die Differenz zwischen der tatsächlichen Termindauer und der geplanten summierten Termindauer&#34;" comment="&#34;&#34;" color="80ff80">
+			<qWhile>
+				<alternative text="&#34;Differenz[i] &#60; max&#34;" comment="&#34;&#34;" color="ffff80">
+					<qTrue>
+						<instruction text="&#34;max = Differenz&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+					</qTrue>
+					<qFalse>
+					</qFalse>
+				</alternative>
+			</qWhile>
+		</while>
+		<alternative text="&#34;max &#60; 0&#34;" comment="&#34;&#34;" color="ffff80">
+			<qTrue>
+				<jump text="&#34;Gib max * (-1) zurück&#34;" comment="&#34;&#34;" color="ff8000"></jump>
+			</qTrue>
+			<qFalse>
+			</qFalse>
+		</alternative>
+		<jump text="&#34;Gib 0 zurück&#34;" comment="&#34;&#34;" color="ff8000"></jump>
+	</children>
+</root>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;Klasse: Strategie&#34;,&#34;&#34;,&#34;Methode: naechsteKombination&#34;" comment="&#34;&#34;" color="ffffff" type="program" style="nice">
+	<children>
+		<while text="&#34;Für jede mögliche Dauer durchlaufe das Kombinationsfeld mit dem Index s&#34;" comment="&#34;&#34;" color="80ff80">
+			<qWhile>
+				<alternative text="&#34;Ist am Index j das Feldelement 25?&#34;" comment="&#34;&#34;" color="ffff80">
+					<qTrue>
+						<jump text="&#34;dauer[j] = 20&#34;,&#34;&#34;,&#34;return&#34;" comment="&#34;&#34;" color="ff8000"></jump>
+					</qTrue>
+					<qFalse>
+					</qFalse>
+				</alternative>
+				<alternative text="&#34;Ist am Index j das Feldelement 20?&#34;" comment="&#34;&#34;" color="ffff80">
+					<qTrue>
+						<jump text="&#34;dauer[j] = 30&#34;,&#34;&#34;,&#34;return&#34;" comment="&#34;&#34;" color="ff8000"></jump>
+					</qTrue>
+					<qFalse>
+					</qFalse>
+				</alternative>
+				<alternative text="&#34;Ist am Index j das Feldelement 30?&#34;" comment="&#34;&#34;" color="ffffff">
+					<qTrue>
+						<instruction text="&#34;dauer[j] = 15&#34;,&#34;&#34;,&#34;break&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+					</qTrue>
+					<qFalse>
+					</qFalse>
+				</alternative>
+			</qWhile>
+		</while>
+		<while text="&#34;Für jede mögliche Dauer&#34;" comment="&#34;&#34;" color="80ff80">
+			<qWhile>
+				<instruction text="&#34;dauer[j] = 15&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+			</qWhile>
+		</while>
+	</children>
+</root>

@@ -111,18 +111,14 @@ public class Strategie implements IStrategie{
 
 	public void createAllKombinations(){
 	    int patienten = lterminZeitpunkte.size();
-		int anzahl_kombinationen = (int) getPowerOf(3,patienten);//Math.pow(3, patienten);
-		//TODO: check hier
+		int anzahl_kombinationen = (int) getPowerOf(3,patienten);
 		anzahlKombinationen = new BigInteger(anzahl_kombinationen+"");
-		//
-		//Kombi k = new Kombi(patienten, 0);
 		for(int i=0; i<anzahl_kombinationen; i++) {
-			//System.out.println("Kombination "+i+": "+Arrays.toString(k.getKombi()));
 			Kombination kom = new Kombination(lterminDauerWerte,dauer);
 			this.wz += kom.getWZ();
 			this.mwz += kom.getMWZ();
 			this.lz += kom.getLZ();
-			//lKombinationen.add(kom);
+			//System.out.println(Arrays.toString(dauer));
 			next();
 		}
 	}
@@ -165,7 +161,7 @@ public class Strategie implements IStrategie{
 		for (String t : lterminZeitpunkte) {
 			ret.append(t+" ");
 		}
-		ret.append(n+n+"Bei "+anzahlKombinationen +" Kombinationen der Behandlungsdauern ergen sich folgende Zeiten:"+n);
+		ret.append(n+n+"Bei "+anzahlKombinationen +" Kombinationen der Behandlungsdauern ergeben sich folgende Zeiten:"+n);
 		
 		rounded = Math.round(10000.0*getWZ())/10000.0;
 		ret.append(" durchschnittliche mittlere Wartezeit"+tab+" WZ = "+String.format("%.4f\n",rounded));

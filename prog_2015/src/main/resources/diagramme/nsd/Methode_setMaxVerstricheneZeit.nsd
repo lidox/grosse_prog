@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;Klasse: Kombination&#34;,&#34;&#34;,&#34;Methode: setMaxVerstricheneZeit&#34;" comment="" color="ffffff" type="program" style="nice">
+	<children>
+		<instruction text="&#34;Initialisiere Zählervariable mit 1&#34;" comment="" color="ffffff" rotated="0"></instruction>
+		<while text="&#34;Durchlaufe alle geplanten Termindauern&#34;" comment="" color="80ff80">
+			<qWhile>
+				<instruction text="&#34;Initialisiere temporäre Variable mit der maximalen verstrichenen Zeit [Zählervariable - 1]&#34;" comment="" color="ffffff" rotated="0"></instruction>
+				<alternative text="&#34;Ist die summerierte geplante Termindauer größer als die maximale verstrichene Zeit&#34;" comment="" color="ffff80">
+					<qTrue>
+						<instruction text="&#34;Belege temporäre Variable mit tatsächlicher Termindauer addiert mit der bis dahin max. verstrichenen Zeit&#34;" comment="" color="ffffff" rotated="0"></instruction>
+					</qTrue>
+					<qFalse>
+					</qFalse>
+				</alternative>
+				<instruction text="&#34;Addiere zur temporären Variable die tatsächliche summierte Termindauer&#34;" comment="" color="ffffff" rotated="0"></instruction>
+				<instruction text="&#34;Belege den nächsten Wert für die maximal verstrichene Zeit mit dem temp. Wert&#34;" comment="" color="ffffff" rotated="0"></instruction>
+			</qWhile>
+		</while>
+	</children>
+</root>

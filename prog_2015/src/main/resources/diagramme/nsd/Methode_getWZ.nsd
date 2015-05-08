@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;Klasse: Kombination&#34;,&#34;&#34;,&#34;Methode: getWZ&#34;" comment="&#34;&#34;" color="ffffff" type="program" style="nice">
+	<children>
+		<instruction text="&#34;Initialisiere Summenvariable mit 0&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+		<while text="&#34;Durchlaufe das Feld für die maximal verstrichene Zeit&#34;" comment="&#34;&#34;" color="80ff80">
+			<qWhile>
+				<alternative text="&#34;Aktueller Wert größer 0?&#34;" comment="&#34;&#34;" color="ffff80">
+					<qTrue>
+						<instruction text="&#34;Addiere aktuellen Wert zur Summenvariable&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+					</qTrue>
+					<qFalse>
+					</qFalse>
+				</alternative>
+			</qWhile>
+		</while>
+		<jump text="&#34;Gib Summe geteilt durch Länge des Feld zurück&#34;" comment="&#34;&#34;" color="ff8000"></jump>
+	</children>
+</root>

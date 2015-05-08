@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;Klasse: Strategie&#34;,&#34;&#34;,&#34;Methode: createAllCombinations&#34;" comment="&#34;&#34;" color="ffffff" type="program" style="nice">
+	<children>
+		<instruction text="&#34;Initialisiere Terminanzahl&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+		<instruction text="&#34;Initialisiere mögliche Kombinationsanzahl&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+		<while text="&#34;Für jede mögliche Kombination&#34;" comment="&#34;&#34;" color="80ff80">
+			<qWhile>
+				<instruction text="&#34;Berechne MWZ, WZ und LZ für aktuelle Kombination&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+				<instruction text="&#34;Addiere MWZ, WZ und LZ jeweils auf eine globale Variable in der Strategie&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+				<instruction text="&#34;Bestimme neue Kombinationsmöglichkeit&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+			</qWhile>
+		</while>
+	</children>
+</root>

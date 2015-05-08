@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;Klasse: Kombination&#34;,&#34;&#34;,&#34;Methode: setDifferenz&#34;" comment="&#34;&#34;" color="ffffff" type="program" style="nice">
+	<children>
+		<while text="&#34;Durchlaufe alle geplanten Termindauern&#34;" comment="&#34;&#34;" color="80ff80">
+			<qWhile>
+				<instruction text="&#34;Bilde Differenz zwischen den tatsächlichen und geplanten Termindauern und belege das Feld mit den Differenzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+			</qWhile>
+		</while>
+	</children>
+</root>

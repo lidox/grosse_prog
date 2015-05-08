@@ -1,3 +1,3 @@
-% Testfall mit Leerzeichen zwischen Kommentar und Werten
+% Testfall mit Leerstelle zwischen Kommentar und Werten
 
 	17	20	22

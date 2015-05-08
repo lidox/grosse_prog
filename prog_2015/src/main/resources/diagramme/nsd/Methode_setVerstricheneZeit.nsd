@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;Klasse: Kombination&#34;,&#34;&#34;,&#34;Methode: setVerstrichene Zeit&#34;,&#34;&#34;,&#34;Parameter: termine = alle geplanten Terminedauern beginnened mit dem ersten Termin (in Minuten)&#34;" comment="" color="ffffff" type="program" style="nice">
+	<children>
+		<instruction text="&#34;Initialisiere Zählervariable mit 1&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+		<instruction text="&#34;Initialisiere Summenvariable mit 0&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+		<while text="&#34;Durchlaufe alle geplanten Termindauerwerte&#34;" comment="&#34;&#34;" color="80ff80">
+			<qWhile>
+				<instruction text="&#34;Initialisiere temporäre Variable mit dem Wert der Termine an der (Zählervariable -1)&#34;" comment="" color="ffffff" rotated="0"></instruction>
+				<instruction text="&#34;Addiere zur Summenvariable die temporäre Variable &#34;" comment="" color="ffffff" rotated="0"></instruction>
+				<instruction text="&#34;Belege das Feld für die verstrichene Terminzeit an der Stelle der Zählervariable mit dem Summenwert&#34;" comment="" color="ffffff" rotated="0"></instruction>
+				<instruction text="&#34;Zählervariable++&#34;" comment="" color="ffffff" rotated="0"></instruction>
+			</qWhile>
+		</while>
+		<instruction text="&#34;Belege den Wert für die letzte verstrichene Zeit in einer zusätzlichen Klassenvariable&#34;" comment="" color="ffffff" rotated="0"></instruction>
+	</children>
+</root>

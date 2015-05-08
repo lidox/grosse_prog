@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="http://structorizer.fisch.lu/" text="&#34;Klasse: Kombination&#34;,&#34;&#34;,&#34;Methode: setDifferenzMaxVerstrichenUndGeplanteTermindauer&#34;" comment="&#34;&#34;" color="ffffff" type="program" style="nice">
+	<children>
+		<while text="&#34;Durchlaufe alle geplanten Termine&#34;" comment="&#34;&#34;" color="80ff80">
+			<qWhile>
+				<instruction text="&#34;Belege neues Feld mit der Differenz von der maximal verstrichenen Zeit und der geplanten Termindauer&#34;" comment="&#34;&#34;" color="ffffff" rotated="0"></instruction>
+			</qWhile>
+		</while>
+	</children>
+</root>
