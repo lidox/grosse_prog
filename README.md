@@ -1,2 +1,3 @@
 # MATSE - Große Prog 2015
-template fuer die grosse prog
+
+Der Code wurde im Rahmen der Ausbildung zum Math. tech. Softwareentwickler (IHK Aachen) entwickelt.
